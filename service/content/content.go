@@ -91,6 +91,12 @@ func (s *service) findRetry(ctx context.Context, repo, path, commit string) (con
 		if err == nil {
 			return
 		}
+
+		content, _, err = s.client.Contents.Find(ctx, repo, path, "/refs/heads/master")
+		if err == nil {
+			return
+		}
+
 		// wait a few seconds before retry. according to github
 		// support 30 seconds total should be enough time. we
 		// try 3 x 15 seconds, giving a total of 45 seconds.
